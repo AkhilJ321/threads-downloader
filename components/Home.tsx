@@ -1,5 +1,5 @@
 'use client';
-import React, { FormEvent, useState, useEffect } from 'react';
+import React, { FormEvent, useState } from 'react';
 import Loader from './Loader';
 import axios from 'axios';
 
@@ -18,7 +18,7 @@ const Home = () => {
 
     const fetchData = async () => {
       try {
-        const response = await axios.post('http://localhost:3000/api', {
+        const response = await axios.post('/api', {
           headers: {
             'Content-Type': 'application/json',
           },
