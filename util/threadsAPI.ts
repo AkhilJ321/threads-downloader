@@ -1,6 +1,7 @@
 import { ThreadsPost } from './types/ThreadsPost';
 import { transformThreadsPost } from './transformer';
 import { request, GaxiosResponse } from 'gaxios';
+import axios from 'axios';
 import { HttpsProxyAgent } from 'https-proxy-agent';
 
 const agent = new HttpsProxyAgent(process.env.PROXY);
@@ -65,40 +66,40 @@ class ThreadsApi {
     try {
       const body = `lsd=HFrY0gn8r6ox-SRJVs36y-&fb_api_caller_class=RelayModern&fb_api_req_friendly_name=BarcelonaPostPageQuery&variables=%7B%22postID%22%3A%22${postId}%22%7D&server_timestamps=true&doc_id=6374009175999984`;
       console.log('[DEBUG] body', body);
-      const response: GaxiosResponse<string> = await request({
-        url: 'https://www.threads.net/api/graphql',
-        headers: {
-          accept: 'application/json',
-          'accept-language': 'en-GB,en-US;q=0.9,en;q=0.8',
-          'content-type': 'application/x-www-form-urlencoded',
-          'sec-ch-prefers-color-scheme': 'dark',
-          'sec-ch-ua':
-            '"Not.A/Brand";v="8", "Chromium";v="114", "Google Chrome";v="114"',
-          'sec-ch-ua-full-version-list':
-            '"Not.A/Brand";v="8.0.0.0", "Chromium";v="114.0.5735.198", "Google Chrome";v="114.0.5735.198"',
-          'sec-ch-ua-mobile': '?0',
-          'sec-ch-ua-platform': '"macOS"',
-          'sec-ch-ua-platform-version': '"13.4.1"',
-          'sec-fetch-dest': 'empty',
-          'sec-fetch-mode': 'cors',
-          'sec-fetch-site': 'same-origin',
-          'viewport-width': '769',
-          'x-asbd-id': '129477',
-          'x-csrftoken': '',
-          'x-fb-friendly-name': 'BarcelonaPostPageQuery',
-          'x-fb-lsd': 'HFrY0gn8r6ox-SRJVs36y-',
-          'x-ig-app-id': '238260118697367',
-        },
-        agent: agent,
-        referrer:
-          'https://www.threads.net/@tamannaahspeaks/post/Cu3tGKBokuF?igshid=NTc4MTIwNjQ2YQ%3D%3D',
-        // @ts-ignore
-        referrerPolicy: 'origin-when-cross-origin',
+
+      const response = await axios.post(
+        'https://www.threads.net/api/graphql',
         body,
-        method: 'POST',
-        mode: 'cors',
-        credentials: 'omit',
-      });
+        {
+          httpsAgent: agent,
+          headers: {
+            accept: '*/*',
+            'accept-language': 'en-GB,en-US;q=0.9,en;q=0.8',
+            'content-type': 'application/x-www-form-urlencoded',
+            'sec-ch-prefers-color-scheme': 'dark',
+            'sec-ch-ua':
+              '"Not.A/Brand";v="8", "Chromium";v="114", "Google Chrome";v="114"',
+            'sec-ch-ua-full-version-list':
+              '"Not.A/Brand";v="8.0.0.0", "Chromium";v="114.0.5735.198", "Google Chrome";v="114.0.5735.198"',
+            'sec-ch-ua-mobile': '?0',
+            'sec-ch-ua-platform': '"macOS"',
+            'sec-ch-ua-platform-version': '"13.4.1"',
+            'sec-fetch-dest': 'empty',
+            'sec-fetch-mode': 'cors',
+            'sec-fetch-site': 'same-origin',
+            'viewport-width': '769',
+            'x-asbd-id': '129477',
+            'x-csrftoken': '',
+            'x-fb-friendly-name': 'BarcelonaPostPageQuery',
+            'x-fb-lsd': 'HFrY0gn8r6ox-SRJVs36y-',
+            'x-ig-app-id': '238260118697367',
+          },
+          // @ts-ignore
+          referrerPolicy: 'origin-when-cross-origin',
+          mode: 'cors',
+          credentials: 'omit',
+        }
+      );
 
       if (response.data) {
         return {

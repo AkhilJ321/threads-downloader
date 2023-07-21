@@ -1,7 +1,9 @@
 import { ThreadsPost } from './types/ThreadsPost';
 
 export function transformThreadsPost(post: Record<string, any>): ThreadsPost {
-  const data = post.data;
+  const data = post.data.data;
+
+  console.log('[transformThreadsPost] data', data);
 
   const mediaType = data.containing_thread.thread_items[0].post.carousel_media
     ? 'carousel'
