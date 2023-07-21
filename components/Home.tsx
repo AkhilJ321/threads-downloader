@@ -1,6 +1,6 @@
 'use client';
 import React, { FormEvent, useState, useEffect } from 'react';
-
+import Loader from './Loader';
 import axios from 'axios';
 
 const Home = () => {
@@ -14,21 +14,7 @@ const Home = () => {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    const handleDownloadMedia = async () => {
-      if (data && data.media.mediaType === 'singleImage') {
-        // For photo media, create an anchor element and trigger the download
-        const link = document.createElement('a');
-        link.href = data.media.candidates[0].url;
-        link.download = `thread_image_${data.id}.jpg`; // Customize the filename as needed
-        link.click();
-      } else if (data && data.media.mediaType === 'singleVideo') {
-        // For video media, create an anchor element and trigger the download
-        const link = document.createElement('a');
-        link.href = data.media.candidates[0].url;
-        link.download = `thread_video_${data.id}.mp4`; // Customize the filename as needed
-        link.click();
-      }
-    };
+    setLoading(true);
 
     const fetchData = async () => {
       try {
@@ -57,8 +43,10 @@ const Home = () => {
           link.href = url;
           link.download = `thread_image.jpg`; // Customize the filename as needed
           link.click();
+          setLoading(false);
           setTimeout(() => {
             link.remove();
+
             window.URL.revokeObjectURL(url);
           }, 3000);
         } else if (jsonData && jsonData.media.mediaType === 'singleVideo') {
@@ -77,6 +65,7 @@ const Home = () => {
           link.href = url;
           link.download = `thread_video.mp4`; // Customize the filename as needed
           link.click();
+          setLoading(false);
           setTimeout(() => {
             link.remove();
             window.URL.revokeObjectURL(url);
@@ -103,6 +92,7 @@ const Home = () => {
               jsonData.media.candidates[i].type === 'video' ? 'mp4' : 'jpg';
             link.download = `thread_image.${extension}`; // Customize the filename as needed
             link.click();
+            setLoading(false);
             setTimeout(() => {
               link.remove();
               window.URL.revokeObjectURL(url);
@@ -135,14 +125,17 @@ const Home = () => {
   return (
     <div className="h-80vh m-4 py-20 justify-center items-center ">
       <div className="p-4">
-        <div>Logo</div>
+        {/* <div>Logo</div> */}
         <section className="p-4 justify-center ">
           <div className="justify-center text-center">
             <h1 className="text-3xl font-bold text-black uppercase">
-              <span className="text-black text-6xl"> Thread Downloader</span>
+              <span className="text-black text-3xl md:text-4xl lg:text-7xl ">
+                {' '}
+                Thread Downloader
+              </span>
             </h1>
           </div>
-          <p className="text-black/50 m-2 text-2xl text-center">
+          <p className="text-black/50 m-2 text-xl md:text-2xl  text-center">
             Download your favorite Instagram Thread to your device
           </p>
           <div className="my-4">
@@ -153,7 +146,7 @@ const Home = () => {
             >
               <input
                 type="text"
-                className="w-2/5 px-4 py-2 border border-gray-300  focus:outline-none  "
+                className="w-3/5 md:w-2/5  px-4 py-2 border border-gray-300  focus:outline-none  "
                 placeholder="Paste your text here"
                 value={threadLink}
                 onChange={handleInputChange}
@@ -172,11 +165,17 @@ const Home = () => {
             <button
               type="submit"
               onClick={handleSubmit}
-              className="px-4 py-2 text-white bg-black rounded-sm hover:bg-gray-800 focus:outline-none focus:ring focus:ring-green-400"
+              className="px-4 py-2 text-white bg-black rounded-sm hover:bg-gray-800 focus:outline-none focus:ring focus:ring-gray-700"
             >
               Download
             </button>
           </div>
+          {/* Loader */}
+          {loading && (
+            <div className="flex items-center justify-center mb-8">
+              <Loader />
+            </div>
+          )}
         </section>
       </div>
     </div>

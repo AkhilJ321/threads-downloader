@@ -9,20 +9,23 @@ const Content = () => {
     setActiveQuestion(activeQuestion === question ? '' : question);
   };
   return (
-    <div className=" w-5/6 mx-auto flex flex-col  py-8 text-justify items-center justify-center">
+    <div className="w-[86%] md:w-[60%] lg:w-[70%] mx-auto flex flex-col  py-8 text-justify items-center justify-center">
       <section className="mb-8 text-justify justify-center">
         {/* About */}
         <h1 className="text-4xl font-bold mb-4 uppercase text-center">
           <span className="border-b-2 gradient-border">About</span>
         </h1>
         <p className=" text-black/70 text-justify ">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur illo
-          accusantium veniam nulla illum impedit minus aperiam, suscipit autem
-          modi alias molestiae sapiente tempore dolor quasi ducimus odit sint
-          tempora placeat! Molestiae vitae facilis, rerum facere debitis harum
-          modi incidunt perferendis omnis voluptatibus corrupti repellendus
-          repellat accusantium quos commodi fugiat, iusto, consequuntur nemo
-          veniam ipsam quae?
+          Are you tired of losing track of engaging Instagram threads? Look no
+          further! At XYZ - Instagram Threads Downloader, we offer a convenient
+          and user-friendly solution to download all those insightful and
+          entertaining Instagram threads. Now, you can easily revisit and
+          explore these engaging conversations later, share them with friends
+          and family, or create your own collection of valuable and
+          thought-provoking threads. Unlock the power of Instagram Threads with
+          XYZ - Instagram Threads Downloader! Begin your journey of downloading
+          your favorite threads today and immerse yourself in the world of
+          organized and captivating content.
         </p>
       </section>
       <section className="mb-8">
@@ -31,13 +34,31 @@ const Content = () => {
           Features
         </h1>
         <p>
-          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Laudantium
-          reprehenderit quaerat, sint in pariatur temporibus libero voluptatibus
-          laborum obcaecati totam delectus doloribus quos cumque laboriosam
-          voluptatem id accusantium? Impedit vel maiores perferendis, iure
-          aperiam asperiores suscipit provident consequatur. Iure nostrum optio
-          ducimus dolorum sequi vel sit doloribus, officia commodi maxime cum
-          quos rerum vero distinctio laboriosam?
+          Are you looking for a reliable and efficient way to download Instagram
+          Reels videos? Look no further than Savein - Reels Downloader! With
+          Savein, you can easily download your favorite Instagram Reels videos
+          and enjoy them offline on any device. Let's explore the amazing
+          features of Savein - Reels Downloader:
+          <br />
+          <span className="font-bold">
+            No Watermark for Better Quality Visual Experiences:
+          </span>
+          <br />
+          Savein- Reels Downloader understands the importance of visual quality
+          and strives to provide you with the best experience. With Savein-
+          Reels Downloader, you can download Instagram Reels videos without any
+          annoying watermarks. Enjoy high-quality videos without any
+          distractions!
+          <br />
+          <span className="font-bold">
+            Download Instagram Reels Anytime, Anywhere - Absolutely Free:
+          </span>
+          <br />
+          Savein- Reels Downloader empowers you to download Instagram Reels
+          videos at your convenience. Whether you're on the go or relaxing at
+          home, Savein- Reels Downloader is always available to fulfill your
+          downloading needs. Best of all, it's completely free of cost! No
+          hidden fees or subscriptions required.
         </p>
       </section>
       <section className="mb-8">
