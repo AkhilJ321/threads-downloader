@@ -4,7 +4,7 @@ import { transformThreadsPost } from './transformer';
 import axios from 'axios';
 import { HttpsProxyAgent } from 'https-proxy-agent';
 
-const agent = new HttpsProxyAgent(process.env.PROXY);
+const agent = new HttpsProxyAgent(process.env.PROXY || '');
 
 class ThreadsApi {
   static async _getPostId(url: string) {
