@@ -21,7 +21,10 @@ export function transformThreadsPost(post: Record<string, any>): ThreadsPost {
               (candidate: Record<string, any>) => ({
                 height: candidate.original_height,
                 width: candidate.original_width,
-                url: candidate.image_versions2.candidates[0].url,
+                url:
+                  candidate?.video_versions.length > 0
+                    ? candidate.video_versions[0].url
+                    : candidate.image_versions2.candidates[0].url,
                 type: candidate?.video_versions.length > 0 ? 'video' : 'image',
               })
             )

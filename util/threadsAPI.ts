@@ -10,7 +10,7 @@ class ThreadsApi {
   static async _getPostId(url: string) {
     try {
       const response = await axios.get(url, {
-        httpsAgent: agent,
+        // httpsAgent: agent,
         headers: {
           accept:
             'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
@@ -71,7 +71,7 @@ class ThreadsApi {
         'https://www.threads.net/api/graphql',
         body,
         {
-          httpsAgent: agent,
+          // httpsAgent: agent,
           headers: {
             accept: '*/*',
             'accept-language': 'en-GB,en-US;q=0.9,en;q=0.8',
@@ -149,6 +149,49 @@ class ThreadsApi {
       success: true,
       data: threadsPostFormatted,
     };
+  }
+
+  static async getArrayBuffer(
+    url: string
+  ): Promise<{ buffer?: ArrayBuffer; mime?: string }> {
+    try {
+      const response = await axios.get(url, {
+        // httpsAgent: agent,
+        headers: {
+          accept: '*/*',
+          'accept-language': 'en-GB,en-US;q=0.9,en;q=0.8',
+          'content-type': 'application/x-www-form-urlencoded',
+          'sec-ch-prefers-color-scheme': 'dark',
+          'sec-ch-ua':
+            '"Not.A/Brand";v="8", "Chromium";v="114", "Google Chrome";v="114"',
+          'sec-ch-ua-full-version-list':
+            '"Not.A/Brand";v="8.0.0.0", "Chromium";v="114.0.5735.198", "Google Chrome";v="114.0.5735.198"',
+          'sec-ch-ua-mobile': '?0',
+          'sec-ch-ua-platform': '"macOS"',
+          'sec-ch-ua-platform-version': '"13.4.1"',
+          'sec-fetch-dest': 'empty',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-site': 'same-origin',
+          'viewport-width': '769',
+          'x-asbd-id': '129477',
+          'x-csrftoken': '',
+          'x-fb-friendly-name': 'BarcelonaPostPageQuery',
+          'x-fb-lsd': 'HFrY0gn8r6ox-SRJVs36y-',
+          'x-ig-app-id': '238260118697367',
+        },
+        responseType: 'arraybuffer',
+      });
+
+      const mime = response.headers['content-type'];
+
+      return { buffer: response.data, mime: mime };
+    } catch (error) {
+      console.log('[ERROR] getArrayBuffer', error);
+      return {
+        buffer: undefined,
+        mime: '',
+      };
+    }
   }
 }
 
