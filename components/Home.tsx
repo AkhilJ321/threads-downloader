@@ -1,16 +1,67 @@
 'use client';
-import React, { FormEvent, useState } from 'react';
+import React, { FormEvent, useState, useEffect } from 'react';
+
+import axios from 'axios';
 
 const Home = () => {
   const [threadLink, setThreadLink] = useState('');
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setThreadLink(e.target.value);
   };
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    console.log('hello');
+    const handleDownloadMedia = async () => {
+      if (data && data.media.mediaType === 'singleImage') {
+        // For photo media, create an anchor element and trigger the download
+        const link = document.createElement('a');
+        link.href = data.media.candidates[0].url;
+        link.download = `thread_image_${data.id}.jpg`; // Customize the filename as needed
+        link.click();
+      } else if (data && data.media.mediaType === 'singleVideo') {
+        // For video media, create an anchor element and trigger the download
+        const link = document.createElement('a');
+        link.href = data.media.candidates[0].url;
+        link.download = `thread_video_${data.id}.mp4`; // Customize the filename as needed
+        link.click();
+      }
+    };
+
+    const fetchData = async () => {
+      try {
+        const response = await axios.post('http://localhost:3000/api', {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          url: threadLink,
+        });
+        setData(response.data.data);
+        if (data && data.media.mediaType === 'singleImage') {
+          // For photo media, create an anchor element and trigger the download
+          const link = document.createElement('a');
+          link.href = data.media.candidates[0].url;
+          link.download = `thread_image_${data.id}.jpg`; // Customize the filename as needed
+          link.click();
+        } else if (data && data.media.mediaType === 'singleVideo') {
+          // For video media, create an anchor element and trigger the download
+          const link = document.createElement('a');
+          link.href = data.media.candidates[0].url;
+          link.download = `thread_video_${data.id}.mp4`; // Customize the filename as needed
+          link.click();
+        }
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+    await fetchData();
+    // await handleDownloadMedia();
+
+    // if (data.length != 0) {
+    //   const mediaArray = data.forEach((media) => {});
+    // }
   };
 
   const handlePaste = () => {
@@ -31,8 +82,7 @@ const Home = () => {
         <section className="p-4 justify-center ">
           <div className="justify-center text-center">
             <h1 className="text-3xl font-bold text-black uppercase">
-              <span className=" text-red-300 text-7xl ">Instagram</span> <br />{' '}
-              <span className="text-black text-6xl"> Thread Download</span>
+              <span className="text-black text-6xl"> Thread Downloader</span>
             </h1>
           </div>
           <p className="text-black/50 m-2 text-2xl text-center">

@@ -3,6 +3,6 @@ import ThreadsApi from '@/util/threadsAPI';
 
 export async function POST(request: NextRequest) {
   const { url } = await request.json();
-  const data = ThreadsApi.getMedia(url);
+  const data = await ThreadsApi.getMedia(url);
   return NextResponse.json(data);
 }

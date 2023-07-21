@@ -1,6 +1,6 @@
 import { ThreadsPost } from './types/ThreadsPost';
 import { transformThreadsPost } from './transformer';
-import { request, GaxiosResponse } from 'gaxios';
+
 import axios from 'axios';
 import { HttpsProxyAgent } from 'https-proxy-agent';
 
@@ -9,8 +9,8 @@ const agent = new HttpsProxyAgent(process.env.PROXY);
 class ThreadsApi {
   static async _getPostId(url: string) {
     try {
-      const response: GaxiosResponse<string> = await request({
-        url,
+      const response = await axios.get(url, {
+        httpsAgent: agent,
         headers: {
           accept:
             'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
@@ -32,7 +32,7 @@ class ThreadsApi {
           'viewport-width': '769',
         },
         // @ts-ignore
-        agent: agent,
+
         referrerPolicy: 'strict-origin-when-cross-origin',
         body: null,
         method: 'GET',
