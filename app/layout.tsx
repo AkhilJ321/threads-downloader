@@ -13,9 +13,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="bg-gradient-to-r from-rose-50 to-rose-100">
-        {children}
-      </body>
+      <body className="bg-gradient">{children}</body>
     </html>
   );
 }

@@ -25,7 +25,7 @@ const Home = () => {
   };
 
   return (
-    <div className="h-80vh m-4 py-20 justify-center items-center">
+    <div className="h-80vh m-4 py-20 justify-center items-center ">
       <div className="p-4">
         <div>Logo</div>
         <section className="p-4 justify-center ">
