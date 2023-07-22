@@ -14,131 +14,28 @@ const Home = () => {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setThreadLink(e.target.value);
   };
-  // const handleImageDownload = () => {
-  //   const link = document.createElement('a');
-  //   link.href = url;
-  //   link.download = `thread_image.jpg`; // Customize the filename as needed
-  //   link.click();
-  //   setLoading(false);
-  //   setTimeout(() => {
-  //     link.remove();
+  const fetchData = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.post('/api', {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        url: threadLink,
+      });
+      const jsonData = response.data.data;
 
-  //     window.URL.revokeObjectURL(url);
-  //   }, 3000);
-  // };
-  // const handleVideoDownload = () => {
-  //   const link = document.createElement('a');
-  //   link.href = url;
-  //   link.download = `thread_video.mp4`; // Customize the filename as needed
-  //   link.click();
-  //   setLoading(false);
-  //   setTimeout(() => {
-  //     link.remove();
-  //     window.URL.revokeObjectURL(url);
-  //   }, 3000);
-  // };
+      console.log(jsonData);
+      setData(jsonData);
+      setLoading(false);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    setLoading(true);
-
-    const fetchData = async () => {
-      try {
-        const response = await axios.post('/api', {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          url: threadLink,
-        });
-        const jsonData = response.data.data;
-
-        console.log(jsonData);
-        setData(jsonData);
-        setLoading(false);
-
-        // if (jsonData && jsonData.media.mediaType === 'singleImage') {
-        //   const bufferRes = await axios.get(
-        //     '/api?url=' + response.data.data.media.candidates[0].url,
-        //     {
-        //       responseType: 'arraybuffer',
-        //     }
-        //   );
-
-        //   const blob = new Blob([bufferRes.data], { type: 'image/jpeg' });
-        //   const url = window.URL.createObjectURL(blob);
-
-        // const link = document.createElement('a');
-        // link.href = url;
-        // link.download = `thread_image.jpg`; // Customize the filename as needed
-        // link.click();
-        // setLoading(false);
-        // setTimeout(() => {
-        //   link.remove();
-
-        //   window.URL.revokeObjectURL(url);
-        // }, 3000);
-        // } else if (jsonData && jsonData.media.mediaType === 'singleVideo') {
-        //   const bufferRes = await axios.get(
-        //     '/api?url=' + response.data.data.media.candidates[0].url,
-        //     {
-        //       responseType: 'arraybuffer',
-        //     }
-        //   );
-
-        //   const blob = new Blob([bufferRes.data], {
-        //     type: 'video/mp4',
-        //   });
-        //   const url = window.URL.createObjectURL(blob);
-
-        //   setLoading(false);
-        //   // const link = document.createElement('a');
-        //   // link.href = url;
-        //   // link.download = `thread_video.mp4`; // Customize the filename as needed
-        //   // link.click();
-        //   // setLoading(false);
-        //   // setTimeout(() => {
-        //   //   link.remove();
-        //   //   window.URL.revokeObjectURL(url);
-        //   // }, 3000);
-        // // } else if (jsonData && jsonData.media.mediaType === 'carousel') {
-        // //   for (let i = 0; i < jsonData.media.candidates.length; i++) {
-        // //     const bufferRes = await axios.get(
-        // //       '/api?url=' + jsonData.media.candidates[i].url,
-        // //       {
-        // //         responseType: 'arraybuffer',
-        // //       }
-        // //     );
-
-        // //     const blob = new Blob([bufferRes.data], {
-        // //       type:
-        // //         jsonData.media.candidates[i].type === 'video'
-        // //           ? 'video/mp4'
-        // //           : 'image/jpeg',
-        // //     });
-        // //     const url = window.URL.createObjectURL(blob);
-        //     // const link = document.createElement('a');
-        //     // link.href = url;
-        //     // const extension =
-        //     //   jsonData.media.candidates[i].type === 'video' ? 'mp4' : 'jpg';
-        //     // link.download = `thread_image.${extension}`; // Customize the filename as needed
-        //     // link.click();
-        //     // setLoading(false);
-        //     // setTimeout(() => {
-        //     //   link.remove();
-        //     //   window.URL.revokeObjectURL(url);
-        //     // }, 3000);
-        //   }
-        // }
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
     await fetchData();
-    // await handleDownloadMedia();
-
-    // if (data.length != 0) {
-    //   const mediaArray = data.forEach((media) => {});
-    // }
   };
 
   const handlePaste = () => {
@@ -206,7 +103,7 @@ const Home = () => {
               <Loader />
             </div>
           )}
-          {data && <MediaItem data={data} />}
+          {data ? <MediaItem data={data} /> : <div></div>}
         </section>
       </div>
     </div>

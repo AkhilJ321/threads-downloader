@@ -1,44 +1,76 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ThreadsPost, MediaCandidate } from '@/util/types/ThreadsPost';
-import axios from 'axios';
-const getURL = async (data: ThreadsPost) => {
-  const bufferRes = await axios.get(
-    '/api?url=' + data.media.candidates[0].url,
-    {
-      responseType: 'arraybuffer',
-    }
-  );
+import Loader from './Loader';
 
-  const blob = new Blob([bufferRes.data], { type: 'image/jpeg' });
-  const url = window.URL.createObjectURL(blob);
-  return url;
+const handleImageDownload = (url: string) => {
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = `thread_image.jpg`; // Customize the filename as needed
+  link.click();
+  setTimeout(() => {
+    link.remove();
+
+    window.URL.revokeObjectURL(url);
+  }, 3000);
+};
+const handleVideoDownload = (url: string) => {
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = `thread_video.mp4`; // Customize the filename as needed
+  link.click();
+
+  setTimeout(() => {
+    link.remove();
+    window.URL.revokeObjectURL(url);
+  }, 3000);
 };
 
-const MediaItem = async ({ data }: { data: ThreadsPost }) => {
+const MediaItem = ({ data }: { data: ThreadsPost }) => {
   const [candidate, setCandidate] = useState<MediaCandidate[]>();
-  const [url, setUrl] = useState<String>();
-  const [urlArray, setUrlArray] = useState<String[]>();
-  if (data != null) {
+
+  useEffect(() => {
     setCandidate(data.media.candidates);
-  }
-  // if (candidate) {
-  //   const urlArray: String[] = [];
-  //   candidate.map((item) => getURL(item.url));
-  // }
+  }, [data]);
 
   return (
-    <div>
+    <div className=" py-4 grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
       {candidate &&
         candidate.map((item) =>
           item.type === 'image' ? (
-            <div>
-              <img src={'/api?url=' + item.url} alt="" />
+            <div
+              key={item.url}
+              className="bg-white text-center rounded-lg shadow-md overflow-hidden "
+            >
+              <img
+                src={'/api?url=' + item.url}
+                alt=""
+                className="w-full  object-cover"
+              />
+              <button
+                onClick={() => handleImageDownload('/api?url=' + item.url)}
+                className="px-4 py-2 w-[100%] text-white bg-black rounded-sm hover:bg-gray-800 focus:outline-none focus:ring focus:ring-gray-700"
+              >
+                Download
+              </button>
             </div>
           ) : (
-            <div>
+            <div
+              key={item.url}
+              className="bg-white text-center rounded-lg shadow-md overflow-hidden"
+            >
               <video controls>
-                <source src={'/api?url=' + item.url} type="video/mp4" />
+                <source
+                  src={'/api?url=' + item.url}
+                  type="video/mp4"
+                  className="w-full  object-cover"
+                />
               </video>
+              <button
+                onClick={() => handleVideoDownload('/api?url=' + item.url)}
+                className="px-4 py-2 w-[100%] text-white bg-black rounded-sm hover:bg-gray-800 focus:outline-none focus:ring focus:ring-gray-700"
+              >
+                Download
+              </button>
             </div>
           )
         )}

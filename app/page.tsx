@@ -6,7 +6,7 @@ export default function Page() {
     <>
       <Home />
       <Content />
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 }

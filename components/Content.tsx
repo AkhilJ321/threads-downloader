@@ -61,8 +61,8 @@ const Content = () => {
           hidden fees or subscriptions required.
         </p>
       </section>
-      <section className="mb-8">
-        {/* How To Section */}
+      {/* <section className="mb-8">
+      
         <h1 className="text-4xl font-bold mb-4 uppercase text-center">
           How To Download Threads
         </h1>
@@ -75,9 +75,9 @@ const Content = () => {
           nostrum quaerat. Qui iusto maiores culpa debitis eaque, nemo
           consectetur tenetur, animi dolores voluptatem consequatur!
         </p>
-      </section>
-      <section className="mb-8">
-        {/* Why */}
+      </section> */}
+      {/* <section className="mb-8">
+       
         <h1 className="text-4xl font-bold mb-4 uppercase text-center">Why</h1>
         <p>
           Lorem ipsum dolor sit amet consectetur, adipisicing elit. Architecto,
@@ -88,7 +88,7 @@ const Content = () => {
           voluptate perferendis ipsum possimus est veniam exercitationem nam,
           rerum adipisci totam facilis magni fuga maxime quae natus?
         </p>
-      </section>
+      </section> */}
       <div className="mb-8">
         {/* FAQ */}
         <h1 className="text-4xl font-bold mb-4 uppercase text-center">
@@ -97,13 +97,29 @@ const Content = () => {
         {faqData.map((item, index) => (
           <div key={index} className="mb-4">
             <button
-              className="w-full text-left font-semibold bg-gray-200 rounded-md px-4 py-2 focus:outline-none"
+              className="flex items-center justify-between w-full text-left font-semibold  px-4 py-2 focus:outline-none"
               onClick={() => toggleAnswer(item.question)}
             >
               {item.question}
+              <svg
+                className={`w-5 h-5 transition-transform duration-300 ${
+                  activeQuestion === item.question ? 'transform rotate-180' : ''
+                }`}
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M19 9l-7 7-7-7"
+                />
+              </svg>
             </button>
             {activeQuestion === item.question && (
-              <div className="mt-2 px-4 py-2 bg-gray-100 rounded-md text-sm">
+              <div className="mt-2 px-4 py-2 text-opacity-50 text-sm">
                 {item.answer}
               </div>
             )}
