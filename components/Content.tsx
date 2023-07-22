@@ -13,7 +13,7 @@ const Content = () => {
       <section className="mb-8 text-justify justify-center">
         {/* About */}
         <h1 className="text-4xl font-bold mb-4 uppercase text-center">
-          <span className="border-b-2 gradient-border">About</span>
+          <span className="border-b-2 ">About</span>
         </h1>
         <p className=" text-black/70 text-justify ">
           Are you tired of losing track of engaging Instagram threads? Look no

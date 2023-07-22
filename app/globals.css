@@ -28,3 +28,22 @@
   background-clip: text;
   color: transparent;
 }
+.image-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 40%;
+  /* height: 300px; */
+  border: 1px solid #ccc;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* Add this media query for responsiveness on smaller screens */
+@media (max-width: 768px) {
+  .image-container {
+    /* height: 200px; */
+    width: 200px;
+  }
+}
