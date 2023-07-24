@@ -9,10 +9,17 @@ const Home = () => {
   const [threadLink, setThreadLink] = useState('');
   const [data, setData] = useState<ThreadsPost>();
   const [loading, setLoading] = useState(false);
-  // const [url, setUrl] = useState('');
+  const [error, setError] = useState('');
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setThreadLink(e.target.value);
+    if (threadLink.trim() === '') {
+      setError('');
+    } else if (!threadLink.startsWith('https://www.threads.net/')) {
+      setError('Please Enter a Valid Instagram thread URL.');
+    } else {
+      setError('');
+    }
   };
   const fetchData = async () => {
     try {
@@ -25,17 +32,25 @@ const Home = () => {
       });
       const jsonData = response.data.data;
 
-      console.log(jsonData);
       setData(jsonData);
       setLoading(false);
     } catch (error) {
-      console.error('Error fetching data:', error);
+      setLoading(false);
+      setError('Error fetching data. Please try again.');
     }
   };
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    await fetchData();
+
+    if (threadLink.trim() === '') {
+      setError('Please Enter a Valid URL.');
+    } else if (!threadLink.startsWith('https://www.threads.net/')) {
+      setError('Please Enter a Valid Instagram thread URL.');
+    } else {
+      setError('');
+      await fetchData();
+    }
   };
 
   const handlePaste = () => {
@@ -56,7 +71,7 @@ const Home = () => {
         <section className="px-2 py-2 md:py-2 lg:py-4 justify-center ">
           <div className="justify-center text-center">
             <h1 className="text-3xl font-bold text-black uppercase">
-              <span className="text-black text-[100%] md:text-4xl lg:text-7xl gradient-border">
+              <span className="text-black text-[100%] md:text-4xl lg:text-7xl ">
                 {' '}
                 Thread Downloader
               </span>
@@ -78,6 +93,7 @@ const Home = () => {
                 value={threadLink}
                 onChange={handleInputChange}
               />
+              {error && <p className="text-red-500">{error}</p>}
             </form>
           </div>
           <div className="flex space-x-4 justify-center text-center">
