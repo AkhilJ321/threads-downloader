@@ -27,13 +27,26 @@ const handleVideoDownload = (url: string) => {
 
 const MediaItem = ({ data }: { data: ThreadsPost }) => {
   const [candidate, setCandidate] = useState<MediaCandidate[]>();
+  const [error, setError] = useState<string>('');
+  const [mediaLoaded, setMediaLoaded] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     setCandidate(data.media.candidates);
+    setLoading(false);
   }, [data]);
+  const handleImageError = () => {
+    setError('Error loading image');
+  };
+  const handleMediaLoad = () => {
+    setMediaLoaded(true);
+  };
+  if (loading) {
+    return <Loader />; // Show loader while fetching data
+  }
 
   return (
-    <div className=" py-4 grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+    <div className=" py-4 grid  grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 ">
       {candidate &&
         candidate.map((item) =>
           item.type === 'image' ? (
@@ -41,36 +54,52 @@ const MediaItem = ({ data }: { data: ThreadsPost }) => {
               key={item.url}
               className="bg-white text-center rounded-lg shadow-md overflow-hidden "
             >
-              <img
-                src={'/api?url=' + item.url}
-                alt=""
-                className="w-full  object-cover"
-              />
-              <button
-                onClick={() => handleImageDownload('/api?url=' + item.url)}
-                className="px-4 py-2 w-[100%] text-white bg-black rounded-sm hover:bg-gray-800 focus:outline-none focus:ring focus:ring-gray-700"
-              >
-                Download
-              </button>
+              {error ? (
+                <p className="text-red-500 py-4">{error}</p>
+              ) : (
+                <img
+                  src={'/api?url=' + item.url}
+                  alt=""
+                  className="w-full  object-cover"
+                  onError={handleImageError}
+                  onLoad={handleMediaLoad}
+                />
+              )}
+              {mediaLoaded && (
+                <button
+                  onClick={() => handleImageDownload('/api?url=' + item.url)}
+                  className="px-4 py-2 w-[100%] text-white bg-black rounded-sm hover:bg-gray-800 focus:outline-none focus:ring focus:ring-gray-700"
+                >
+                  Download
+                </button>
+              )}
             </div>
           ) : (
             <div
               key={item.url}
               className="bg-white text-center rounded-lg shadow-md overflow-hidden"
             >
-              <video controls>
-                <source
-                  src={'/api?url=' + item.url}
-                  type="video/mp4"
-                  className="w-full  object-cover"
-                />
-              </video>
-              <button
-                onClick={() => handleVideoDownload('/api?url=' + item.url)}
-                className="px-4 py-2 w-[100%] text-white bg-black rounded-sm hover:bg-gray-800 focus:outline-none focus:ring focus:ring-gray-700"
-              >
-                Download
-              </button>
+              {error ? (
+                <p className="text-red-500 py-4">{error}</p>
+              ) : (
+                <video controls>
+                  <source
+                    src={'/api?url=' + item.url}
+                    type="video/mp4"
+                    className="w-full  object-cover"
+                    onLoad={handleMediaLoad}
+                  />
+                </video>
+              )}
+
+              {mediaLoaded && (
+                <button
+                  onClick={() => handleImageDownload('/api?url=' + item.url)}
+                  className="px-4 py-2 w-[100%] text-white bg-black rounded-sm hover:bg-gray-800 focus:outline-none focus:ring focus:ring-gray-700"
+                >
+                  Download
+                </button>
+              )}
             </div>
           )
         )}
