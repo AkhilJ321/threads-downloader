@@ -100,7 +100,7 @@ const Home = () => {
             {/* Buttons */}
             <button
               type="button"
-              className="px-2 py-2 text-white bg-black rounded-sm hover:bg-gray-800 focus:outline-none focus:ring focus:ring-gray-700"
+              className="px-2 py-2 text-white bg-black rounded-sm hover:bg-gray-800 "
               onClick={handlePaste}
             >
               Paste Link
@@ -108,7 +108,7 @@ const Home = () => {
             <button
               type="submit"
               onClick={handleSubmit}
-              className="px-4 py-2 text-white bg-black rounded-sm hover:bg-gray-800 focus:outline-none focus:ring focus:ring-gray-700"
+              className="px-4 py-2 text-white bg-black rounded-sm hover:bg-gray-800 "
             >
               Download
             </button>

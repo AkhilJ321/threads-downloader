@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { ThreadsPost, MediaCandidate } from '@/util/types/ThreadsPost';
-import Loader from './Loader';
 
 const handleImageDownload = (url: string) => {
   const link = document.createElement('a');
@@ -29,11 +28,9 @@ const MediaItem = ({ data }: { data: ThreadsPost }) => {
   const [candidate, setCandidate] = useState<MediaCandidate[]>();
   const [error, setError] = useState<string>('');
   const [mediaLoaded, setMediaLoaded] = useState<boolean>(false);
-  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     setCandidate(data.media.candidates);
-    setLoading(false);
   }, [data]);
   const handleImageError = () => {
     setError('Error loading image');
@@ -41,9 +38,6 @@ const MediaItem = ({ data }: { data: ThreadsPost }) => {
   const handleMediaLoad = () => {
     setMediaLoaded(true);
   };
-  if (loading) {
-    return <Loader />; // Show loader while fetching data
-  }
 
   return (
     <div className=" py-4 grid  grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 ">
@@ -94,7 +88,7 @@ const MediaItem = ({ data }: { data: ThreadsPost }) => {
 
               {mediaLoaded && (
                 <button
-                  onClick={() => handleImageDownload('/api?url=' + item.url)}
+                  onClick={() => handleVideoDownload('/api?url=' + item.url)}
                   className="px-4 py-2 w-[100%] text-white bg-black rounded-sm hover:bg-gray-800 focus:outline-none focus:ring focus:ring-gray-700"
                 >
                   Download
