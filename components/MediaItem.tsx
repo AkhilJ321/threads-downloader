@@ -40,13 +40,13 @@ const MediaItem = ({ data }: { data: ThreadsPost }) => {
   };
 
   return (
-    <div className=" py-4 grid  grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 ">
+    <div className=" py-4  w-[100%] flex-wrap flex align-middle justify-center ">
       {candidate &&
         candidate.map((item) =>
           item.type === 'image' ? (
             <div
               key={item.url}
-              className="bg-white text-center rounded-lg shadow-md overflow-hidden "
+              className="bg-white w-[240px] mx-3 text-center rounded-lg shadow-md overflow-hidden "
             >
               {error ? (
                 <p className="text-red-500 py-4">{error}</p>
@@ -54,7 +54,7 @@ const MediaItem = ({ data }: { data: ThreadsPost }) => {
                 <img
                   src={'/api?url=' + item.url}
                   alt=""
-                  className="w-full  object-cover"
+                  className="w-full flex object-cover"
                   onError={handleImageError}
                   onLoad={handleMediaLoad}
                 />
